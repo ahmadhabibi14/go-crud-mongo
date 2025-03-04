@@ -7,7 +7,7 @@ import (
 	"go-crud-mongo/helper"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 const (
@@ -15,10 +15,10 @@ const (
 )
 
 type User struct {
-	Id    primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
-	Name  string             `json:"name" bson:"name"`
-	Email string             `json:"email" bson:"email"`
-	Age   uint8              `json:"age" bson:"age"`
+	Id    bson.ObjectID `json:"id" bson:"_id"`
+	Name  string        `json:"name" bson:"name"`
+	Email string        `json:"email" bson:"email"`
+	Age   uint8         `json:"age" bson:"age"`
 }
 
 func NewUser() *User {
@@ -34,14 +34,14 @@ func (u *User) Insert() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	res, err := collection.InsertOne(ctx, &u)
+	res, err := collection.InsertOne(ctx, u)
 	if err != nil {
 		helper.Log.Error(err, Err500UserInsertFailed.Error())
 
 		return Err500UserInsertFailed
 	}
 
-	u.Id = res.InsertedID.(primitive.ObjectID)
+	u.Id = res.InsertedID.(bson.ObjectID)
 
 	return nil
 }
