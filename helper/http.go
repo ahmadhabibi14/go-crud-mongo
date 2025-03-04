@@ -14,5 +14,10 @@ func ReadBody[T any | struct{}](c echo.Context) (out T, err error) {
 		return
 	}
 
+	err = ValidateStruct(out)
+	if err != nil {
+		return
+	}
+
 	return
 }

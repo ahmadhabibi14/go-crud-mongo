@@ -8,7 +8,9 @@ import (
 
 func startEchoServer() {
 	e := echo.New()
+
 	e.POST("/user", controller.AddUser)
+	e.GET("/users", controller.GetAllUsers)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

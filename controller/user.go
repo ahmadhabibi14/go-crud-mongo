@@ -38,3 +38,21 @@ func AddUser(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, out)
 }
+
+func GetAllUsers(c echo.Context) error {
+	usr := model.NewUser()
+	users, err := usr.GetAll()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.ResponseCommon{
+			StatusCode: http.StatusInternalServerError,
+			Error:      err.Error(),
+		})
+	}
+
+	out := response.GetUsersOut{}
+	out.Data = &users
+	out.SetStatus(http.StatusOK)
+	out.SetMessage(`Users obtained !!`)
+
+	return c.JSON(http.StatusOK, out)
+}

@@ -1,7 +1,13 @@
 package request
 
 type AddUserIn struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Age   uint8  `json:"age"`
+	Name  string `json:"name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
+	Age   uint8  `json:"age" validate:"required"`
+}
+
+type UpdateUserIn struct {
+	Name  string `json:"name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
+	Age   uint8  `json:"age" validate:"required"`
 }
